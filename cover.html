@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>app: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/reangeline/workout-plan-go/cmd/app/main.go (0.0%)</option>
+				
+				<option value="file1">github.com/reangeline/workout-plan-go/internal/domain/entities/exercise.go (92.9%)</option>
+				
+				<option value="file2">github.com/reangeline/workout-plan-go/internal/domain/entities/training.go (0.0%)</option>
+				
+				<option value="file3">github.com/reangeline/workout-plan-go/internal/domain/entities/training_user.go (0.0%)</option>
+				
+				<option value="file4">github.com/reangeline/workout-plan-go/internal/domain/entities/user.go (75.0%)</option>
+				
+				<option value="file5">github.com/reangeline/workout-plan-go/internal/domain/usecases/create_user.go (0.0%)</option>
+				
+				<option value="file6">github.com/reangeline/workout-plan-go/tests/unit/domain/mocks/user_repository_mock.go (47.1%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package main
+
+func main() {<span class="cov0" title="0">
+
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package entities
+
+import "errors"
+
+type Exercise struct {
+        Name        string
+        MuscleGroup []string
+        Description string
+        UriGif      string
+}
+
+func NewExercise(e Exercise) (*Exercise, error) <span class="cov1" title="1">{
+        exercise := &amp;Exercise{
+                Name:        e.Name,
+                MuscleGroup: e.MuscleGroup,
+                Description: e.Description,
+                UriGif:      e.UriGif,
+        }
+
+        err := exercise.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov1" title="1">return exercise, nil</span>
+}
+
+func (e *Exercise) IsValid() error <span class="cov10" title="7">{
+        if e.Name == "" </span><span class="cov4" title="2">{
+                return errors.New("name is required")
+        }</span>
+
+        <span class="cov8" title="5">if len(e.MuscleGroup) == 0 </span><span class="cov1" title="1">{
+                return errors.New("muscle group is required")
+
+        }</span>
+
+        <span class="cov7" title="4">if e.Description == "" </span><span class="cov1" title="1">{
+                return errors.New("descritpion is required")
+        }</span>
+
+        <span class="cov6" title="3">if e.UriGif == "" </span><span class="cov1" title="1">{
+                return errors.New("uri gif is required")
+        }</span>
+        <span class="cov4" title="2">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package entities
+
+import "errors"
+
+type Training struct {
+        ID          string
+        UserID      string
+        TrainigName string
+        Exercises   []*Exercise
+}
+
+func NewTraining(t Training) (*Training, error) <span class="cov0" title="0">{
+        training := &amp;Training{
+                ID:          t.ID,
+                UserID:      t.UserID,
+                TrainigName: t.TrainigName,
+                Exercises:   t.Exercises,
+        }
+
+        err := t.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return training, nil</span>
+}
+
+func (t *Training) IsValid() error <span class="cov0" title="0">{
+        if t.ID == "" </span><span class="cov0" title="0">{
+                return errors.New("id is required")
+        }</span>
+
+        <span class="cov0" title="0">if t.UserID == "" </span><span class="cov0" title="0">{
+                return errors.New("user id is required")
+        }</span>
+
+        <span class="cov0" title="0">if t.TrainigName == "" </span><span class="cov0" title="0">{
+                return errors.New("training name is required")
+        }</span>
+        <span class="cov0" title="0">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package entities
+
+type TrainingActive struct {
+        ID          string
+        UserID      string
+        TrainingID  string
+        Repetitions int
+        Weight      float64
+        Time        float64
+}
+
+func NewTrainingActive(tu TrainingActive) (*TrainingActive, error) <span class="cov0" title="0">{
+        trainingActive := &amp;TrainingActive{
+                ID:          tu.ID,
+                UserID:      tu.UserID,
+                TrainingID:  tu.TrainingID,
+                Repetitions: tu.Repetitions,
+                Weight:      tu.Weight,
+                Time:        tu.Time,
+        }
+
+        err := trainingActive.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return trainingActive, nil</span>
+}
+
+func (e *TrainingActive) IsValid() error <span class="cov0" title="0">{
+
+        return nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package entities
+
+import "errors"
+
+type User struct {
+        ID             string
+        FullName       string
+        Email          string
+        ProfilePicture string
+}
+
+func NewUser(full_name string, email string, profile_picture string) (*User, error) <span class="cov1" title="1">{
+        user := &amp;User{
+                ID:             "1",
+                FullName:       full_name,
+                Email:          email,
+                ProfilePicture: profile_picture,
+        }
+
+        err := user.IsValid()
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov1" title="1">return user, nil</span>
+}
+func (u *User) IsValid() error <span class="cov10" title="3">{
+        if u.ID == "" </span><span class="cov1" title="1">{
+                return errors.New("id is required")
+        }</span>
+        <span class="cov6" title="2">if u.FullName == "" </span><span class="cov0" title="0">{
+                return errors.New("name is required")
+        }</span>
+
+        <span class="cov6" title="2">if u.Email == "" </span><span class="cov0" title="0">{
+                return errors.New("email is required")
+        }</span>
+
+        <span class="cov6" title="2">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package usecases
+
+import (
+        "errors"
+
+        "github.com/reangeline/workout-plan-go/internal/domain/contracts/repositories"
+        "github.com/reangeline/workout-plan-go/internal/domain/entities"
+        "github.com/reangeline/workout-plan-go/internal/dtos"
+)
+
+type CreateUserUseCase struct {
+        UserRepository repositories.UserRepositoryInterface
+}
+
+func (c *CreateUserUseCase) Execute(input dtos.UserInputDTO) (*dtos.UserOutputDTO, error) <span class="cov0" title="0">{
+        isExist, err := c.UserRepository.FindByEmail(input.Email)
+        if isExist.Email == input.Email </span><span class="cov0" title="0">{
+                return nil, errors.New("email already exists")
+        }</span>
+
+        <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">user, err := entities.NewUser(input.FullName, input.Email, input.ProfilePicture)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">if err := c.UserRepository.Create(user); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">dto := dtos.UserOutputDTO{
+                FullName:       user.FullName,
+                Email:          user.Email,
+                ProfilePicture: user.ProfilePicture,
+        }
+
+        return &amp;dto, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: ./internal/domain/repositories/user_repository_interfaces.go
+
+// Package mocks_test is a generated GoMock package.
+package mocks_test
+
+import (
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
+        entities "github.com/reangeline/workout-plan-go/internal/domain/entities"
+)
+
+// MockUserRepositoryInterface is a mock of UserRepositoryInterface interface.
+type MockUserRepositoryInterface struct {
+        ctrl     *gomock.Controller
+        recorder *MockUserRepositoryInterfaceMockRecorder
+}
+
+// MockUserRepositoryInterfaceMockRecorder is the mock recorder for MockUserRepositoryInterface.
+type MockUserRepositoryInterfaceMockRecorder struct {
+        mock *MockUserRepositoryInterface
+}
+
+// NewMockUserRepositoryInterface creates a new mock instance.
+func NewMockUserRepositoryInterface(ctrl *gomock.Controller) *MockUserRepositoryInterface <span class="cov10" title="2">{
+        mock := &amp;MockUserRepositoryInterface{ctrl: ctrl}
+        mock.recorder = &amp;MockUserRepositoryInterfaceMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUserRepositoryInterface) EXPECT() *MockUserRepositoryInterfaceMockRecorder <span class="cov10" title="2">{
+        return m.recorder
+}</span>
+
+// Create mocks base method.
+func (m *MockUserRepositoryInterface) Create(user *entities.User) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Create", user)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// Create indicates an expected call of Create.
+func (mr *MockUserRepositoryInterfaceMockRecorder) Create(user interface{}) *gomock.Call <span class="cov1" title="1">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserRepositoryInterface)(nil).Create), user)
+}</span>
+
+// FindByEmail mocks base method.
+func (m *MockUserRepositoryInterface) FindByEmail(email string) (entities.User, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "FindByEmail", email)
+        ret0, _ := ret[0].(entities.User)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// FindByEmail indicates an expected call of FindByEmail.
+func (mr *MockUserRepositoryInterfaceMockRecorder) FindByEmail(email interface{}) *gomock.Call <span class="cov1" title="1">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByEmail", reflect.TypeOf((*MockUserRepositoryInterface)(nil).FindByEmail), email)
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

@@ -1,8 +1,6 @@
 package entities
 
-import (
-	"errors"
-)
+import "errors"
 
 type Exercise struct {
 	Name        string
@@ -11,12 +9,12 @@ type Exercise struct {
 	UriGif      string
 }
 
-func NewExercise(name string, muscle_group []string, description string, uri_gif string) (*Exercise, error) {
+func NewExercise(e Exercise) (*Exercise, error) {
 	exercise := &Exercise{
-		Name:        name,
-		MuscleGroup: muscle_group,
-		Description: description,
-		UriGif:      uri_gif,
+		Name:        e.Name,
+		MuscleGroup: e.MuscleGroup,
+		Description: e.Description,
+		UriGif:      e.UriGif,
 	}
 
 	err := exercise.IsValid()

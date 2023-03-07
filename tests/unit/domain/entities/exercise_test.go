@@ -56,3 +56,36 @@ func TestGivenAnEmptyUriGif_WhenCreateExercise_ThenShouldReceiveAnError(t *testi
 	err := exercise.IsValid()
 	assert.Error(t, err, "uri gif is required")
 }
+
+func TestGivenAValidParams_WhenICallNewExercise_ThenIShouldReceiveCreateExerciseWithAllParams(t *testing.T) {
+	exercise := entities.Exercise{
+		Name:        "supino",
+		MuscleGroup: []string{"peito"},
+		Description: "des",
+		UriGif:      "uri",
+	}
+	assert.Equal(t, "supino", exercise.Name)
+	assert.Equal(t, []string{"peito"}, exercise.MuscleGroup)
+	assert.Equal(t, "des", exercise.Description)
+	assert.Equal(t, "uri", exercise.UriGif)
+	assert.Nil(t, exercise.IsValid())
+
+}
+
+func TestGivenAValidParams_WhenICallNewExerciseFunc_ThenIShouldReceiveCreateExerciseWithAllParams(t *testing.T) {
+	exer := entities.Exercise{
+		Name:        "supino",
+		MuscleGroup: []string{"peito"},
+		Description: "des",
+		UriGif:      "uri",
+	}
+
+	exercise, err := entities.NewExercise(exer)
+	assert.Nil(t, err)
+
+	assert.Equal(t, "supino", exercise.Name)
+	assert.Equal(t, []string{"peito"}, exercise.MuscleGroup)
+	assert.Equal(t, "des", exercise.Description)
+	assert.Equal(t, "uri", exercise.UriGif)
+
+}
