@@ -1,13 +1,16 @@
 package dtos
 
+import "github.com/reangeline/workout-plan-go/pkg/entities"
+
 type UserInputDTO struct {
-	FullName       string
-	Email          string
-	ProfilePicture string
+	FullName       string `json:"full_name"`
+	Email          string `json:"email"`
+	ProfilePicture string `json:"profile_picture"`
 }
 
 type UserOutputDTO struct {
-	FullName       string
-	Email          string
-	ProfilePicture string
+	ID             entities.ID `json:"id"`
+	FullName       string      `json:"full_name"`
+	Email          string      `json:"email"`
+	ProfilePicture string      `json:"profile_picture"`
 }

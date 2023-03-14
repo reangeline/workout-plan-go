@@ -1,4 +1,4 @@
-mockgen -source=./internal/domain/repositories/user_repository_interfaces.go -destination=./tests/unit/domain/mocks/user_repository_mock.go -package=mocks
+mockgen -source=./internal/domain/contracts/repositories/user_repository_interfaces.go -destination=./tests/unit/internal/domain/mocks/user_repository_mock.go -package=mocks
 
 go test -covermode=count -coverpkg=./... -coverprofile cover.out -v ./...  
 go tool cover -html=coverage.out 

@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"errors"
+
 	"github.com/reangeline/workout-plan-go/internal/domain/contracts/repositories"
 	"github.com/reangeline/workout-plan-go/internal/domain/entities"
 	"github.com/reangeline/workout-plan-go/internal/dtos"
@@ -14,30 +16,50 @@ func NewUserUseCase(userRepository repositories.UserRepositoryInterface) *UserUs
 	return &UserUseCase{userRepository}
 }
 
-func (c *UserUseCase) CreateUser(input *dtos.UserInputDTO) (*dtos.UserOutputDTO, error) {
-	// isExist, err := c.UserRepository.FindByEmail(input.Email)
-	// if isExist.Email == input.Email {
-	// 	return nil, errors.New("email already exists")
-	// }
+var (
+	ErrEmailAlreadyExists = errors.New("email already exist")
+)
 
-	// if err != nil {
-	// 	return nil, err
-	// }
+func (u *UserUseCase) CreateUser(input *dtos.UserInputDTO) error {
+
+	isExist, _ := u.CheckEmailExists(input.Email)
+
+	if isExist {
+		return ErrEmailAlreadyExists
+	}
 
 	user, err := entities.NewUser(input.FullName, input.Email, input.ProfilePicture)
+	if err != nil {
+		return err
+	}
+
+	if err := u.userRepository.CreateUser(user); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (u *UserUseCase) CheckEmailExists(email string) (bool, error) {
+	output, err := u.userRepository.FindByEmail(email)
+	if err != nil {
+		return false, err
+	}
+
+	if output.Email != email {
+		return false, nil
+	}
+
+	return true, nil
+}
+
+func (u *UserUseCase) FindByEmail(email string) (*dtos.UserOutputDTO, error) {
+	user, err := u.userRepository.FindByEmail(email)
+
 	if err != nil {
 		return nil, err
 	}
 
-	if err := c.userRepository.CreateUser(user); err != nil {
-		return nil, err
-	}
+	return &user, nil
 
-	dto := dtos.UserOutputDTO{
-		FullName:       user.FullName,
-		Email:          user.Email,
-		ProfilePicture: user.ProfilePicture,
-	}
-
-	return &dto, nil
 }

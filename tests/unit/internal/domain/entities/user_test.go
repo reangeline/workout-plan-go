@@ -8,8 +8,8 @@ import (
 )
 
 func TestGivenAnEmptyFields_WhenCreateUser_ThenShouldReceiveAnError(t *testing.T) {
+
 	user := entities.User{
-		ID:             "",
 		FullName:       "",
 		Email:          "",
 		ProfilePicture: "",
@@ -19,13 +19,13 @@ func TestGivenAnEmptyFields_WhenCreateUser_ThenShouldReceiveAnError(t *testing.T
 }
 
 func TestGivenAValidParams_WhenICallNewUser_ThenIShouldReceiveCreateUserWithAllParams(t *testing.T) {
+
 	user := entities.User{
-		ID:             "1",
 		FullName:       "Renato",
 		Email:          "reangeline@hotmail.com",
 		ProfilePicture: "http://image.jpge",
 	}
-	assert.Equal(t, "1", user.ID)
+
 	assert.Equal(t, "Renato", user.FullName)
 	assert.Equal(t, "reangeline@hotmail.com", user.Email)
 	assert.Equal(t, "http://image.jpge", user.ProfilePicture)
@@ -39,7 +39,6 @@ func TestGivenAValidParams_WhenICallNewUserFunc_ThenIShouldReceiveCreateUserWith
 	u, err := entities.NewUser("Renato", "reangeline@hotmail.com", "http://image.jpge")
 	assert.Nil(t, err)
 
-	assert.Equal(t, "1", u.ID)
 	assert.Equal(t, "Renato", u.FullName)
 	assert.Equal(t, "reangeline@hotmail.com", u.Email)
 	assert.Equal(t, "http://image.jpge", u.ProfilePicture)
