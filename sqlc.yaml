@@ -1,0 +1,12 @@
+version: "2"
+sql:
+  - schema: "internal/infra/database/postgres/migrations"
+    queries: "internal/infra/database/postgres/queries"
+    engine: "postgresql"
+    gen:
+      go:
+        package: "database"
+        out: "internal/infra/database/postgres/sqlc"
+        overrides:
+          - db_type: "decimal"
+            go_type: "float64"

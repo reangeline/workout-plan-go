@@ -8,22 +8,22 @@ import (
 )
 
 type MemoryUserRepository struct {
-	users map[string]*entities.User
+	Users map[string]*entities.User
 }
 
 func NewMemoryUserRepository() *MemoryUserRepository {
 	return &MemoryUserRepository{
-		users: make(map[string]*entities.User),
+		Users: make(map[string]*entities.User),
 	}
 }
 
 func (r *MemoryUserRepository) CreateUser(user *entities.User) error {
-	r.users[user.Email] = user
+	r.Users[user.Email] = user
 	return nil
 }
 
 func (r *MemoryUserRepository) FindByEmail(email string) (dtos.UserOutputDTO, error) {
-	user, ok := r.users[email]
+	user, ok := r.Users[email]
 
 	if !ok {
 		return dtos.UserOutputDTO{}, errors.New("not found")

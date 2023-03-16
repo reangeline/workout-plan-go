@@ -1,4 +1,6 @@
-mockgen -source=./internal/domain/contracts/repositories/user_repository_interfaces.go -destination=./tests/unit/internal/domain/mocks/user_repository_mock.go -package=mocks
+migrate create -ext=sql -dir=internal/infra/database/postgres/migrations -seq user
+
+migrate -path=internal/infra/database/postgres/migrations -database "postgres://renato:renato@192.168.15.124:5432/customer?sslmode=disable&timezone=America/Sao_Paulo" -verbose up
 
 go test -covermode=count -coverpkg=./... -coverprofile cover.out -v ./...  
 go tool cover -html=coverage.out 
