@@ -1,6 +1,7 @@
 package usecases_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -15,17 +16,19 @@ func TestUserUseCase_Create(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	ctx := context.Background()
+
 	repo := database_test.NewMemoryUserRepository()
 	usecase := usecases.NewUserUseCase(repo)
 
-	input := &dtos.UserInputDTO{
+	input := &dtos.CreateUserInput{
 		FullName:       "Renato Angeline",
 		Email:          "reangeline@hotmail.com",
 		ProfilePicture: "teste",
 	}
 
 	t.Run("should create user successfully", func(t *testing.T) {
-		err := usecase.CreateUser(input)
+		err := usecase.CreateUser(ctx, input)
 		assert.NoError(t, err)
 	})
 
@@ -36,7 +39,7 @@ func TestUserUseCase_Create(t *testing.T) {
 	})
 
 	t.Run("should not add a email that alrealdy exist", func(t *testing.T) {
-		err := usecase.CreateUser(input)
+		err := usecase.CreateUser(ctx, input)
 		assert.Error(t, err)
 	})
 

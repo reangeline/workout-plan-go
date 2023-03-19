@@ -10,7 +10,7 @@ func NewUserValidator() *UserValidator {
 	return &UserValidator{}
 }
 
-func (uv *UserValidator) ValidateUser(user *dtos.UserInputDTO) error {
+func (uv *UserValidator) ValidateUser(user *dtos.CreateUserInput) error {
 	// Implementação da validação de usuário aqui
 
 	return nil

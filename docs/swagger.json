@@ -1,0 +1,63 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Esta é uma API REST de exemplo",
+        "title": "Meu API REST",
+        "contact": {},
+        "version": "1"
+    },
+    "host": "localhost:8000",
+    "basePath": "/",
+    "paths": {
+        "/users": {
+            "post": {
+                "description": "Cria um usuário com base nas informações fornecidas",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Cria um usuário",
+                "parameters": [
+                    {
+                        "description": "Informações do usuário",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.UserInputDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dtos.UserInputDTO": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "profile_picture": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

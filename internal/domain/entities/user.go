@@ -7,7 +7,7 @@ import (
 )
 
 type User struct {
-	ID             entities.ID
+	IDUser         entities.ID
 	FullName       string
 	Email          string
 	ProfilePicture string
@@ -32,7 +32,7 @@ func NewUser(full_name string, email string, profile_picture string) (*User, err
 }
 
 func (u *User) AddId() {
-	u.ID = entities.NewID()
+	u.IDUser = entities.NewID()
 }
 
 func (u *User) IsValid() error {

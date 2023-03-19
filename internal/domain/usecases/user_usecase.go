@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"context"
 	"errors"
 
 	"github.com/reangeline/workout-plan-go/internal/domain/contracts/repositories"
@@ -20,7 +21,7 @@ var (
 	ErrEmailAlreadyExists = errors.New("email already exist")
 )
 
-func (u *UserUseCase) CreateUser(input *dtos.UserInputDTO) error {
+func (u *UserUseCase) CreateUser(ctx context.Context, input *dtos.CreateUserInput) error {
 
 	isExist, _ := u.CheckEmailExists(input.Email)
 
@@ -33,7 +34,7 @@ func (u *UserUseCase) CreateUser(input *dtos.UserInputDTO) error {
 		return err
 	}
 
-	if err := u.userRepository.CreateUser(user); err != nil {
+	if err := u.userRepository.CreateUser(ctx, user); err != nil {
 		return err
 	}
 
@@ -60,6 +61,6 @@ func (u *UserUseCase) FindByEmail(email string) (*dtos.UserOutputDTO, error) {
 		return nil, err
 	}
 
-	return &user, nil
+	return user, nil
 
 }

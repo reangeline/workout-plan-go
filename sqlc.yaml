@@ -5,7 +5,7 @@ sql:
     engine: "postgresql"
     gen:
       go:
-        package: "database"
+        package: "sqlc"
         out: "internal/infra/database/postgres/sqlc"
         overrides:
           - db_type: "decimal"

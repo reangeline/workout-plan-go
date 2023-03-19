@@ -3,40 +3,51 @@
 //   sqlc v1.17.2
 // source: user_query.sql
 
-package database
+package sqlc
 
 import (
 	"context"
+	"database/sql"
+
+	"github.com/google/uuid"
 )
 
-const getAllUsers = `-- name: GetAllUsers :many
-SELECT id_user, full_name, email, profile_picture FROM users
+const createUser = `-- name: CreateUser :exec
+INSERT INTO users (id_user, full_name, email, profile_picture) 
+VALUES ($1,$2,$3,$4)
+RETURNING id_user, full_name, email, profile_picture
 `
 
-func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, getAllUsers)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []User
-	for rows.Next() {
-		var i User
-		if err := rows.Scan(
-			&i.IDUser,
-			&i.FullName,
-			&i.Email,
-			&i.ProfilePicture,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+type CreateUserParams struct {
+	IDUser         uuid.UUID
+	FullName       string
+	Email          string
+	ProfilePicture sql.NullString
+}
+
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
+	_, err := q.db.ExecContext(ctx, createUser,
+		arg.IDUser,
+		arg.FullName,
+		arg.Email,
+		arg.ProfilePicture,
+	)
+	return err
+}
+
+const findUserByEmail = `-- name: FindUserByEmail :one
+SELECT id_user, full_name, email, profile_picture FROM users
+WHERE email = $1
+`
+
+func (q *Queries) FindUserByEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, findUserByEmail, email)
+	var i User
+	err := row.Scan(
+		&i.IDUser,
+		&i.FullName,
+		&i.Email,
+		&i.ProfilePicture,
+	)
+	return i, err
 }

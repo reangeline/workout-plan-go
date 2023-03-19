@@ -1,8 +1,12 @@
 package usecases
 
-import "github.com/reangeline/workout-plan-go/internal/dtos"
+import (
+	"context"
+
+	"github.com/reangeline/workout-plan-go/internal/dtos"
+)
 
 type UserUseCaseInterface interface {
-	CreateUser(input *dtos.UserInputDTO) error
+	CreateUser(ctx context.Context, input *dtos.CreateUserInput) error
 	CheckEmailExists(email string) (bool, error)
 }

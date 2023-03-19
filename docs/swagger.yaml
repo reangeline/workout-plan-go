@@ -1,0 +1,41 @@
+basePath: /
+definitions:
+  dtos.UserInputDTO:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      profile_picture:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: Esta é uma API REST de exemplo
+  title: Meu API REST
+  version: "1"
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Cria um usuário com base nas informações fornecidas
+      parameters:
+      - description: Informações do usuário
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UserInputDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      summary: Cria um usuário
+      tags:
+      - User
+swagger: "2.0"

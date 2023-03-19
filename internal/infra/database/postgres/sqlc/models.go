@@ -2,14 +2,16 @@
 // versions:
 //   sqlc v1.17.2
 
-package database
+package sqlc
 
 import (
 	"database/sql"
+
+	"github.com/google/uuid"
 )
 
 type User struct {
-	IDUser         string
+	IDUser         uuid.UUID
 	FullName       string
 	Email          string
 	ProfilePicture sql.NullString
