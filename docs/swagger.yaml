@@ -1,6 +1,11 @@
 basePath: /
 definitions:
-  dtos.UserInputDTO:
+  controllers.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  dtos.CreateUserInput:
     properties:
       email:
         type: string
@@ -11,31 +16,41 @@ definitions:
     type: object
 host: localhost:8000
 info:
-  contact: {}
-  description: Esta é uma API REST de exemplo
-  title: Meu API REST
-  version: "1"
+  contact:
+    email: reangeline@hotmail.com
+    name: Renato Saraiva Angeline
+  description: API
+  termsOfService: http://swagger.io/terms/
+  title: Workout Plan API
+  version: "1.0"
 paths:
   /users:
     post:
       consumes:
       - application/json
-      description: Cria um usuário com base nas informações fornecidas
+      description: Create user
       parameters:
-      - description: Informações do usuário
+      - description: user request
         in: body
-        name: input
+        name: request
         required: true
         schema:
-          $ref: '#/definitions/dtos.UserInputDTO'
+          $ref: '#/definitions/dtos.CreateUserInput'
       produces:
       - application/json
       responses:
         "201":
           description: Created
-        "400":
-          description: Bad Request
-      summary: Cria um usuário
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Error'
+      summary: Create user
       tags:
-      - User
+      - users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

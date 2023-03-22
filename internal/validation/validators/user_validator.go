@@ -1,6 +1,9 @@
 package validators
 
 import (
+	"errors"
+	"strings"
+
 	"github.com/reangeline/workout-plan-go/internal/dtos"
 )
 
@@ -11,7 +14,10 @@ func NewUserValidator() *UserValidator {
 }
 
 func (uv *UserValidator) ValidateUser(user *dtos.CreateUserInput) error {
-	// Implementação da validação de usuário aqui
+
+	if !strings.Contains(user.Email, "@") {
+		return errors.New("please add a valid email")
+	}
 
 	return nil
 }

@@ -9,7 +9,11 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Renato Saraiva Angeline",
+            "email": "reangeline@hotmail.com"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -17,7 +21,7 @@ const docTemplate = `{
     "paths": {
         "/users": {
             "post": {
-                "description": "Cria um usuário com base nas informações fornecidas",
+                "description": "Create user",
                 "consumes": [
                     "application/json"
                 ],
@@ -25,17 +29,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "users"
                 ],
-                "summary": "Cria um usuário",
+                "summary": "Create user",
                 "parameters": [
                     {
-                        "description": "Informações do usuário",
-                        "name": "input",
+                        "description": "user request",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.UserInputDTO"
+                            "$ref": "#/definitions/dtos.CreateUserInput"
                         }
                     }
                 ],
@@ -43,15 +47,26 @@ const docTemplate = `{
                     "201": {
                         "description": "Created"
                     },
-                    "400": {
-                        "description": "Bad Request"
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.Error"
+                        }
                     }
                 }
             }
         }
     },
     "definitions": {
-        "dtos.UserInputDTO": {
+        "controllers.Error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.CreateUserInput": {
             "type": "object",
             "properties": {
                 "email": {
@@ -65,17 +80,24 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1",
+	Version:          "1.0",
 	Host:             "localhost:8000",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Meu API REST",
-	Description:      "Esta é uma API REST de exemplo",
+	Title:            "Workout Plan API",
+	Description:      "API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

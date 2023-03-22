@@ -10,14 +10,23 @@ import (
 	"github.com/reangeline/workout-plan-go/internal/infra/http/routes"
 
 	_ "github.com/lib/pq"
+	_ "github.com/reangeline/workout-plan-go/docs"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// @title Meu API REST
-// @description Esta é uma API REST de exemplo
-// @version 1
-// @host localhost:8000
-// @BasePath /
+// @title           Workout Plan API
+// @version         1.0
+// @description     API
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   Renato Saraiva Angeline
+// @contact.email  reangeline@hotmail.com
+
+// @host      localhost:8000
+// @BasePath  /
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	configs, err := configs.LoadConfig(".")
 	if err != nil {
@@ -29,7 +38,7 @@ func main() {
 	)
 
 	db, err := sql.Open("postgres", dsn)
-	fmt.Println("Postgres ok")
+	fmt.Println("Postgres connected")
 
 	if err != nil {
 		panic(err)
@@ -41,7 +50,7 @@ func main() {
 	}
 
 	r := routes.InitializeUserRoutes(uc)
-	r.Get("/docs/*", httpSwagger.WrapHandler)
+	r.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8000/docs/doc.json")))
 
 	err = http.ListenAndServe(":"+configs.WebServerPort, r)
 	fmt.Println(err)

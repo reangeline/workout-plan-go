@@ -2,5 +2,7 @@ migrate create -ext=sql -dir=internal/infra/database/postgres/migrations -seq us
 
 migrate -path=internal/infra/database/postgres/migrations -database "postgres://renato:renato@localhost:5432/customer?sslmode=disable&timezone=America/Sao_Paulo" -verbose up
 
+swag init -g cmd/app/main.go
+
 go test -covermode=count -coverpkg=./... -coverprofile cover.out -v ./...  
 go tool cover -html=coverage.out 

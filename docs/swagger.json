@@ -1,17 +1,21 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Esta é uma API REST de exemplo",
-        "title": "Meu API REST",
-        "contact": {},
-        "version": "1"
+        "description": "API",
+        "title": "Workout Plan API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Renato Saraiva Angeline",
+            "email": "reangeline@hotmail.com"
+        },
+        "version": "1.0"
     },
     "host": "localhost:8000",
     "basePath": "/",
     "paths": {
         "/users": {
             "post": {
-                "description": "Cria um usuário com base nas informações fornecidas",
+                "description": "Create user",
                 "consumes": [
                     "application/json"
                 ],
@@ -19,17 +23,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "users"
                 ],
-                "summary": "Cria um usuário",
+                "summary": "Create user",
                 "parameters": [
                     {
-                        "description": "Informações do usuário",
-                        "name": "input",
+                        "description": "user request",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.UserInputDTO"
+                            "$ref": "#/definitions/dtos.CreateUserInput"
                         }
                     }
                 ],
@@ -37,15 +41,26 @@
                     "201": {
                         "description": "Created"
                     },
-                    "400": {
-                        "description": "Bad Request"
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.Error"
+                        }
                     }
                 }
             }
         }
     },
     "definitions": {
-        "dtos.UserInputDTO": {
+        "controllers.Error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.CreateUserInput": {
             "type": "object",
             "properties": {
                 "email": {
@@ -58,6 +73,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }
