@@ -1,23 +1,24 @@
 package entities
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/reangeline/workout-plan-go/pkg/entities"
+)
 
 type Training struct {
-	ID          string
-	UserID      string
+	TrainingID  entities.ID
+	UserID      entities.ID
 	TrainigName string
-	Exercises   []*Exercise
 }
 
-func NewTraining(t Training) (*Training, error) {
+func NewTraining(UserID entities.ID, trainig_name string) (*Training, error) {
 	training := &Training{
-		ID:          t.ID,
-		UserID:      t.UserID,
-		TrainigName: t.TrainigName,
-		Exercises:   t.Exercises,
+		UserID:      UserID,
+		TrainigName: trainig_name,
 	}
 
-	err := t.IsValid()
+	err := training.IsValid()
 
 	if err != nil {
 		return nil, err
@@ -26,14 +27,11 @@ func NewTraining(t Training) (*Training, error) {
 	return training, nil
 }
 
-func (t *Training) IsValid() error {
-	if t.ID == "" {
-		return errors.New("id is required")
-	}
+func (u *Training) AddId() {
+	u.TrainingID = entities.NewID()
+}
 
-	if t.UserID == "" {
-		return errors.New("user id is required")
-	}
+func (t *Training) IsValid() error {
 
 	if t.TrainigName == "" {
 		return errors.New("training name is required")

@@ -18,7 +18,20 @@ import (
 	"github.com/reangeline/workout-plan-go/internal/validation/validators"
 )
 
+import (
+	_ "github.com/lib/pq"
+	_ "github.com/reangeline/workout-plan-go/docs"
+)
+
 // Injectors from wire.go:
+
+func InitializeExerciseController(db *sql.DB) (*controllers.ExerciseController, error) {
+	exerciseRepository := database.NewExerciseRepository(db)
+	exerciseUseCase := usecases.NewExerciseUseCase(exerciseRepository)
+	exerciseValidator := validators.NewExerciseValidator()
+	exerciseController := controllers.NewExerciseController(exerciseUseCase, exerciseValidator)
+	return exerciseController, nil
+}
 
 func InitializeUserController(db *sql.DB) (*controllers.UserController, error) {
 	userRepository := database.NewUserRepository(db)
@@ -28,6 +41,14 @@ func InitializeUserController(db *sql.DB) (*controllers.UserController, error) {
 	return userController, nil
 }
 
+func InitializeTrainingController(db *sql.DB) (*controllers.TrainingController, error) {
+	trainingRepository := database.NewTrainingRepository(db)
+	trainingUseCase := usecases.NewTrainingUseCase(trainingRepository)
+	trainingValidator := validators.NewTrainingValidator()
+	trainingController := controllers.NewTrainingController(trainingUseCase, trainingValidator)
+	return trainingController, nil
+}
+
 // wire.go:
 
 var setUserRepositoryDependency = wire.NewSet(database.NewUserRepository, wire.Bind(new(repositories.UserRepositoryInterface), new(*database.UserRepository)))
@@ -35,3 +56,15 @@ var setUserRepositoryDependency = wire.NewSet(database.NewUserRepository, wire.B
 var setUserUseCaseDependency = wire.NewSet(usecases.NewUserUseCase, wire.Bind(new(usecases2.UserUseCaseInterface), new(*usecases.UserUseCase)))
 
 var setUserValidatorDependency = wire.NewSet(validators.NewUserValidator, wire.Bind(new(protocols.UserValidatorInterface), new(*validators.UserValidator)))
+
+var setExerciseRepositoryDependency = wire.NewSet(database.NewExerciseRepository, wire.Bind(new(repositories.ExerciseRepositoryInterface), new(*database.ExerciseRepository)))
+
+var setExerciseUseCaseDependency = wire.NewSet(usecases.NewExerciseUseCase, wire.Bind(new(usecases2.ExerciseUseCaseInterface), new(*usecases.ExerciseUseCase)))
+
+var setExerciseValidatorDependency = wire.NewSet(validators.NewExerciseValidator, wire.Bind(new(protocols.ExerciseValidatorInterface), new(*validators.ExerciseValidator)))
+
+var setTrainingRepositoryDependency = wire.NewSet(database.NewTrainingRepository, wire.Bind(new(repositories.TrainingRepositoryInterface), new(*database.TrainingRepository)))
+
+var setTrainingUseCaseDependency = wire.NewSet(usecases.NewTrainingUseCase, wire.Bind(new(usecases2.TrainingUseCaseInterface), new(*usecases.TrainingUseCase)))
+
+var setTrainingValidatorDependency = wire.NewSet(validators.NewTrainingValidator, wire.Bind(new(protocols.TrainingValidatorInterface), new(*validators.TrainingValidator)))

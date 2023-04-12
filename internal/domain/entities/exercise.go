@@ -1,20 +1,25 @@
 package entities
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/reangeline/workout-plan-go/pkg/entities"
+)
 
 type Exercise struct {
-	Name        string
-	MuscleGroup []string
-	Description string
-	UriGif      string
+	IDExercise   entities.ID
+	NameExercise string
+	MuscleGroup  []string
+	Description  string
+	UriGif       string
 }
 
-func NewExercise(e Exercise) (*Exercise, error) {
+func NewExercise(name_exercise string, muscle_group []string, description string, uri_gif string) (*Exercise, error) {
 	exercise := &Exercise{
-		Name:        e.Name,
-		MuscleGroup: e.MuscleGroup,
-		Description: e.Description,
-		UriGif:      e.UriGif,
+		NameExercise: name_exercise,
+		MuscleGroup:  muscle_group,
+		Description:  description,
+		UriGif:       uri_gif,
 	}
 
 	err := exercise.IsValid()
@@ -23,11 +28,17 @@ func NewExercise(e Exercise) (*Exercise, error) {
 		return nil, err
 	}
 
+	exercise.AddId()
+
 	return exercise, nil
 }
 
+func (u *Exercise) AddId() {
+	u.IDExercise = entities.NewID()
+}
+
 func (e *Exercise) IsValid() error {
-	if e.Name == "" {
+	if e.NameExercise == "" {
 		return errors.New("name is required")
 	}
 

@@ -5,6 +5,26 @@ definitions:
       message:
         type: string
     type: object
+  dtos.CreateExerciseInput:
+    properties:
+      description:
+        type: string
+      muscle_group:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      uri_gif:
+        type: string
+    type: object
+  dtos.CreateTrainingInput:
+    properties:
+      iduser:
+        type: string
+      trainigName:
+        type: string
+    type: object
   dtos.CreateUserInput:
     properties:
       email:
@@ -24,6 +44,54 @@ info:
   title: Workout Plan API
   version: "1.0"
 paths:
+  /exercises:
+    post:
+      consumes:
+      - application/json
+      description: Create exercise
+      parameters:
+      - description: exercise request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateExerciseInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Error'
+      summary: Create exercise
+      tags:
+      - exercises
+  /trainings:
+    post:
+      consumes:
+      - application/json
+      description: Create training
+      parameters:
+      - description: training request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateTrainingInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Error'
+      summary: Create training
+      tags:
+      - trainings
   /users:
     post:
       consumes:

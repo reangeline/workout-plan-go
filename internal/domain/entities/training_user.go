@@ -1,9 +1,10 @@
 package entities
 
+import "github.com/reangeline/workout-plan-go/pkg/entities"
+
 type TrainingActive struct {
-	ID          string
-	UserID      string
-	TrainingID  string
+	UserID      entities.ID
+	TrainingID  entities.ID
 	Repetitions int
 	Weight      float64
 	Time        float64
@@ -11,7 +12,6 @@ type TrainingActive struct {
 
 func NewTrainingActive(tu TrainingActive) (*TrainingActive, error) {
 	trainingActive := &TrainingActive{
-		ID:          tu.ID,
 		UserID:      tu.UserID,
 		TrainingID:  tu.TrainingID,
 		Repetitions: tu.Repetitions,

@@ -49,7 +49,20 @@ func main() {
 		log.Fatalf("failed to initialize user controller: %v", err)
 	}
 
+	ec, err := InitializeExerciseController(db)
+	if err != nil {
+		log.Fatalf("failed to initialize exercise controller: %v", err)
+	}
+
+	tc, err := InitializeTrainingController(db)
+	if err != nil {
+		log.Fatalf("failed to initialize exercise controller: %v", err)
+	}
+
 	r := routes.InitializeUserRoutes(uc)
+	r = routes.InitializeExerciseRoutes(ec)
+	r = routes.InitializeTrainingRoutes(tc)
+
 	r.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8000/docs/doc.json")))
 
 	err = http.ListenAndServe(":"+configs.WebServerPort, r)

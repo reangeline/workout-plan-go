@@ -10,6 +10,24 @@ import (
 	"github.com/google/uuid"
 )
 
+type Exercise struct {
+	IDExercise   uuid.UUID
+	NameExercise string
+	Description  string
+	UriGif       string
+}
+
+type MuscleGroupExercise struct {
+	IDExercise  uuid.UUID
+	MuscleGroup string
+}
+
+type Training struct {
+	IDTraining  uuid.UUID
+	IDUser      uuid.UUID
+	TrainigName string
+}
+
 type User struct {
 	IDUser         uuid.UUID
 	FullName       string
